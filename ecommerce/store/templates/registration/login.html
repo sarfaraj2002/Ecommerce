@@ -1,0 +1,72 @@
+{% extends 'store/main.html' %} {% block body %} {% load static %}
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 box-element">
+        <div class="row justify-content-center text-center">
+            <h1>Login</h1>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {% endif %}
+
+
+            <form method="POST" action="{% url 'loginView' %}">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+                      >Username</span
+                    >
+                    <input
+                      type="text"
+                      name="username"
+                      maxlength="150"
+                      autocapitalize="none"
+                      autocomplete="username"
+                      autofocus
+                      required
+                      id="id_username"
+                      class="form-control"
+                    />
+                  </div>
+          
+                  <div class="input-group mb-3">
+                    <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+                      >Password</span
+                    >
+                    <input
+                      type="password"
+                      name="password"
+                      autocapitalize="none"
+                      autocomplete="new-password"
+                      autofocus
+                      required
+                      id="id_password"
+                      class="form-control"
+                      pb-role="password"
+                    /><br />
+                  </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row justify-content-center">
+                            <input class="btn btn-success w-75 btn-block" type="submit" value="login">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-left">
+                        <p1>Dont have an account?<a class="link" href="{% url 'register' %}"> sign up</a></p1>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+  var obj = document.getElementsByClassName("login")
+  for(var i = 0; i<obj.length;i++){
+    obj[i].style.display ="none";
+  }
+</script>
+
+{% endblock %}

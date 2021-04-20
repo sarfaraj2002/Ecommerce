@@ -1,0 +1,198 @@
+{% extends 'store/main.html' %} {% block body %} {% load static %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    {% if request.session.verified %}
+    <div class="col-lg-8 box-element">
+      <h1 class="text-center">SIGN UP</h1>
+      {% if error %}
+      <div class="alert alert-danger" role="alert">{{error}}</div>
+      {% endif %}
+      <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        <div class="input-group mb-3">
+          <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+            >Username</span
+          >
+          <input
+            type="text"
+            name="username"
+            maxlength="150"
+            autocapitalize="none"
+            autocomplete="username"
+            autofocus
+            required
+            id="id_username"
+            class="form-control"
+          />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+            >Password</span
+          >
+          <input
+            type="password"
+            name="password1"
+            autocapitalize="none"
+            autocomplete="new-password"
+            autofocus
+            required
+            id="id_password1"
+            class="form-control"
+            pb-role="password"
+          /><br />
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+            >Confirm Password</span
+          >
+          <input
+            type="password"
+            name="password2"
+            autocapitalize="none"
+            autocomplete="new-password"
+            autofocus
+            required
+            id="id_password2"
+            class="form-control"
+            pb-role="password"
+          /><br />
+        </div>
+
+        <ul style="text-align: left">
+          <h4>NOTE:</h4>
+          <li>
+            Username should be 150 characters or fewer. Letters, digits and
+            @/./+/-/_ only.
+          </li>
+          <li>
+            Your password can’t be too similar to your other personal
+            information.
+          </li>
+          <li>Your password must contain at least 8 characters.</li>
+          <li>Your password can’t be a commonly used password.</li>
+          <li>Your password can’t be entirely numeric.</li>
+        </ul>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="row justify-content-center">
+              <input
+                class="btn btn-success w-75 btn-block"
+                type="submit"
+                value="SIGN UP"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 text-left">
+            <p1
+              >Already have an account?<a
+                class="link"
+                href="{% url 'loginView' %}"
+              >
+                Login</a
+              ></p1
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% else %}
+    <div class="col-lg-8 box-element">
+      <h1 class="text-center">Email Verification</h1>
+      {% if error %}
+      <div class="alert alert-danger" role="alert">{{error}}</div>
+      {% endif %} {% if success %}
+      <div class="alert alert-success" role="alert">{{success}}</div>
+      {% endif %}
+      <form method="GET" action="{% url 'OTP' 'send' %}">
+        <div class="input-group mb-3">
+          <div class="input-group mb-3">
+            <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+              >Full Name</span
+            >
+            <input
+              type="text"
+              name="name"
+              value="{{name}}"
+              maxlength="150"
+              autocapitalize="none"
+              autocomplete="username"
+              autofocus
+              required
+              id="id_username"
+              class="form-control"
+            />
+          </div>
+          <input
+            type="email"
+            name="email"
+            value="{{email}}"
+            class="form-control"
+            placeholder="Email"
+            aria-label="Recipient's username"
+            aria-describedby="button-addon2"
+          />
+          <button
+            class="btn w-25 btn-outline-secondary"
+            type="submit"
+            id="button-addon2"
+          >
+            Get OTP
+          </button>
+        </div>
+      </form>
+
+      <form method="GET" action="{% url 'OTP' 'verify' %}">
+        {% csrf_token %}
+
+        <div class="input-group mb-3">
+          <span class="input-group-text w-50 row" id="inputGroup-sizing-default"
+            ><p4 class="text-center">Enter OTP</p4></span
+          >
+          <input
+            type="number"
+            name="OTP"
+            autocomplete="OTP"
+            autofocus
+            required
+            id="id_OTP"
+            class="form-control"
+          />
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="row justify-content-center">
+              <input
+                class="btn btn-success w-75 btn-block"
+                type="submit"
+                value="Verify"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 text-left">
+            <p1
+              >Already have an account?<a
+                class="link"
+                href="{% url 'loginView' %}"
+              >
+                Login</a
+              ></p1
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+  var obj = document.getElementsByClassName("login")
+  for(var i = 0; i<obj.length;i++){
+    obj[i].style.display ="none";
+  }
+</script>
+{% endblock %}

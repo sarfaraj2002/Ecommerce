@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <script>
+      var user = "{{request.user}}";
+
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getToken("csrftoken");
+    </script>
+    <title>ECOM</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'store' %} ">THE AWESOME STORE</a>
+        <div class="cart-item-sm">
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+          </a>
+          <p1 class="total-items" id="cart-total">{{order.get_total_items}}</p1>
+        </div>
+
+        <button
+          class="navbar-toggler"
+          onclick="opennav()"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{% url 'store' %}"
+                >Home</a
+              >
+            </li>
+          </ul>
+          <!-- <form class="d-flex ">
+            <a href="#"class="btn btn-warning">Login</a>
+            <a href="{% url 'cart' %}">
+              <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+            </a>
+            <p id="cart-total">0</p>
+          </form> -->
+
+          {% if not request.user.is_authenticated %}
+          <div class="form-inline my-2 login my-lg-0">
+            <a href="{% url 'loginView' %}" class="btn btn-warning">Login</a>
+          </div>
+          {% else %}
+          <div class="form-inline my-2 login my-lg-0">
+            <a href="{% url 'logout' %}">
+              <ion-icon
+                class="bg-warning"
+                style="
+                  font-size: 30px;
+                  margin: 1px;
+                  border: 1px transparent;
+                  border-radius: 2px;
+                "
+                name="log-out-outline"
+              ></ion-icon
+            ></a>
+          </div>
+          {% endif %}
+          <div class="form-inline login cart-item-lg my-2 my-lg-0">
+            <a href="{% url 'cart' %}">
+              <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+            </a>
+            <p1 class="total-items" id="cart-total"
+              >{{order.get_total_items}}</p1
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div id="fakenavbar" style="height: 56px"></div>
+
+    <div class="container">{% block body %} {% endblock %}</div>
+    
+    <div class="position-fixed fixed-bottom bg-dark text-white">
+      <div class="row justify-content-center">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <div class="row">
+            <div class="col-8">@2021 THE AWESOME STORE</div>
+            <div class="col-4" style="background-color: #212529 !important">
+              <div class="row">
+                <div class="col-4">
+                  <a
+                    href="https://www.instagram.com/sarfarajansari_/"
+                    class="icon"
+                    ><ion-icon
+                      style="font-size: 20px"
+                      name="logo-instagram"
+                    ></ion-icon
+                  ></a>
+                </div>
+                <div class="col-4">
+                  <a
+                    href="https://www.linkedin.com/in/sarfaraj-ansari-a0a9441b9/"
+                    class="icon"
+                    ><ion-icon name="logo-linkedin"></ion-icon
+                  ></a>
+                </div>
+
+                <div class="col-4">
+                  <a href="mailto:com.sarfarajansari@gmail.com" class="icon"
+                    ><ion-icon name="mail-outline"></ion-icon
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style="background-color: #212529 !important"
+          class="col-lg-1"
+        ></div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript" src="{% static 'js/cart.js' %} "></script>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+  </body>
+</html>

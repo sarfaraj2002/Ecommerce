@@ -1,0 +1,27 @@
+{% extends 'store/main.html' %}
+{% block body %}
+{% load static %}
+    <div class="row">
+        {% for product in products reversed %}
+
+            <div class="col-lg-4 col-md-6">
+                {% if product.image %}
+                    <img class="thumbnail" src="{{product.image.url}} " alt="placeholder">
+
+                {% else %}
+                    <img class="thumbnail" src="{% static 'images/randomimg.png' %} " alt="placeholder">
+                {% endif %}
+                <div class="box-element product">
+                    <h6><strong>{{product.name}}</strong></h6>
+                    <hr>
+                    <button class="btn btn-outline-secondary add-btn update-cart" data-product={{product.id}}  data-action="add" data-page="store">Add to Cart</button>
+                    <a href="{% url 'product' product.id %} " class="btn btn-outline-success">View</a>
+                    <h4 class="product-price">${{product.price|floatformat:2}}</h4>
+                </div>
+            </div>
+
+        {% endfor %}
+        
+    </div>
+
+{% endblock %}
